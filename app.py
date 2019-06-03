@@ -3,11 +3,13 @@ from flask import request
 from flask import redirect
 from flask import render_template
 app = Flask(__name__)
-content = '这是一个测试2222'\
-obj={'a':777,'b':888}
+title = '数据集市之家'
+user = {'nickname': 'Miguel'}
 @app.route('/')
 def index():
-    return render_template('index.html',c_text=content,object=obj)
+    return render_template('index.html',
+                           #title=title,
+                           user=user)
 # def home():
 #     return '<h1>home</h1>'
 
