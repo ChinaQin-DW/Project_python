@@ -12,36 +12,37 @@ db = SQLAlchemy(app)
 Base = declarative_base()
 
 
-class Blog(db.Model):
-    __tablename__ = 'blog'
-    id  = db.Column(db.Integer,primary_key=True,autoincrement=True)
-    title = db.Column(db.String(100),nullable=False)
-    content = db.Column(db.Text,nullable=True)
+class shouye(db.Model):
+    __tablename__ = 'table_shouye'
+    xiaobiaoti = db.Column(db.String(50))
+    neirong = db.Column(db.String(1000))
+    xh = db.Column(db.DECIMAL(2, 0), primary_key=True)
 
-
-db.create_all()
+res =shouye.query.filter(shouye.xiaobiaoti=="数据挖掘方法").first()
+print(res.neirong)
+#db.create_all()
 
 @app.route('/')
 def index():
     #新增
-    blog = Blog(title="first blog",content="this is my first blog")
-    db.session.add(blog)
-    db.session.commit()
+    # blog = Blog(title="first blog",content="this is my first blog")
+    # db.session.add(blog)
+    # db.session.commit()
 
     #查询
     #res =Blog.query.filter(Blog.title=="first blog")[0]
 
-    res =Blog.query.filter(Blog.title=="first blog").first()
-    print(res.title)
+    res =shouye.query.filter(shouye.xiaobiaoti=="数据挖掘方法").first()
+    print(res.neirong)
      #修改
-    blog_edit = Blog.query.filter(Blog.title=="first blog").first()
-    blog_edit.title = "new first blog"
-    db.session.commit()
+    # blog_edit = Blog.query.filter(Blog.title=="first blog").first()
+    # blog_edit.title = "new first blog"
+    # db.session.commit()
     # #删除
     # blog_delete  = Blog.query.filter(Blog.title=="first blog").first()
     # db.session.delete(blog_delete)
     # db.session.commit()
-    return 'index'+blog_edit.title
+    return 'index'+res.neirong
 
 
 if __name__ == '__main__':
