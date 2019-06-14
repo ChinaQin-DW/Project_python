@@ -7,7 +7,6 @@ import config
 
 app = Flask(__name__)
 app.config.from_object(config)
-
 db = SQLAlchemy(app)
 Base = declarative_base()
 
@@ -17,9 +16,15 @@ class shouye(db.Model):
     xiaobiaoti = db.Column(db.String(50))
     neirong = db.Column(db.String(1000))
     xh = db.Column(db.DECIMAL(2, 0), primary_key=True)
+
+shouye = shouye.query.all()
+for n in shouye:
+    print(n.xiaobiaoti+'               '+n.neirong)
+print(shouye)
+
 #查询
-res =shouye.query.filter(shouye.xiaobiaoti=="数据挖掘方法").first()
-print(res.neirong)
+# res =shouye.query.filter(shouye.xiaobiaoti=="数据挖掘方法").first()
+# print(res.neirong)
 #修改
 # shouye = shouye(title="first blog",content="this is my first blog")
 # db.session.add(shouye)
@@ -33,13 +38,15 @@ print(res.neirong)
 # db.session.delete(blog_delete)
 # db.session.commit()
 
+'----------------route--------------'
 @app.route('/')  #methods=['GET']
 @app.route('/home')
 def home():
     return render_template(
         'index.html',
-         title= res.xiaobiaoti,##"数据之家",
-         year=datetime.now().year
+         title= "数据之家",
+         year=datetime.now().year,
+         shouye=shouye
     )
 @app.route('/contact')
 def contact():
@@ -47,7 +54,7 @@ def contact():
         'contact.html',
         title='Contact',
         year=datetime.now().year,
-        message='Your contact page.'
+        message='识的决策。数据挖掘的目标是从数据库中'
     )
 
 @app.route('/source')

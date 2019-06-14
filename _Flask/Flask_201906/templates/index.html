@@ -8,11 +8,23 @@
         但又是潜在有用的信息和知识的过程。</p>
     <p><a href="https://wiki.mbalib.com/wiki/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98" class="btn btn-primary btn-large">MBA智库定义 &raquo;</a></p>
 </div>
-
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="float:left">
         <h2>数据挖掘方法</h2>
-            <p>利用数据挖掘进行数据分析常用的方法主要有分类、回归分析、聚类、关联规则、特征、变化和偏差分析、Web页挖掘等， 它们分别从不同的角度对数据进行挖掘。</p>
+            <p>不同的角度对数据进行挖掘。'</p>
+    </div>
+    <div class="col-md-4" style="float:left">
+        <h2>数据挖掘方法</h2>
+            <p>们分别从不同的角度对数据进行挖掘。'</p>
     </div>
 </div>
+
+{% for shouye in shouye%}
+<div class="row">
+    <div class="col-md-4">
+        <h2>{{shouye.xiaobiaoti}}</h2>
+            <p>{{shouye.neirong}}</p>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
