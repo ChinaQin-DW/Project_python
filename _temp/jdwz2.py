@@ -1,52 +1,32 @@
 # -- coding:utf-8 --
 from selenium import webdriver
 import time
-driver=webdriver.Firefox()
-driver.get('http://211.166.76.62/2019cjfb/register/cjcx.jsp')
-kh_01='2019'
-kh_02=48## start 001 - 299
-kh_03='00'#00 01 02
-kh_04='901'
-xm='杨灏'
-def cjcx(kh,xm):
-    driver.find_element_by_id("number").clear()
-    driver.find_element_by_id("name").clear()
-    driver.find_element_by_id("number").send_keys(kh)#考号
-    driver.find_element_by_id("name").send_keys(xm)#名字
-    driver.find_element_by_xpath("//img[contains(@onclick, 'return sub();')]").click()  # 登录
-    tit=(driver.title)
-    print(tit)
-    time.sleep(0.1)
-    print(kh+xm)
-    if tit=='成绩查询':
-        cj=driver.find_elements_by_xpath("//div[contains(@class,'STYLE88 style9')] ") #//div[contains(@class,’xxx’)]
-        cc=cj[3].text
-        print(type(cc))
-        print(cc)
-        return tit
-    driver.find_element_by_id("button").click()  # 上一步
-
-time.sleep(5)  #等待输入验证码
-print(driver.title)
-for n in range(1,5):
-    kh_03='0'+str(n)
-    for n in range(110,170):
-        if n<10:
-            m='00'+str(n)
-        elif n<100:
-            m = '0' + str(n)
-        elif n<1000:
-            m = str(n)
-        kh=kh_01+m+kh_03+kh_04
-        tit=cjcx(kh,xm)
-        if tit=='成绩查询':
-            break
-    if tit == '成绩查询':
-        print('查到成绩')
-        break
-##cjcx('201908200295','熊晓辉')
-##成绩查询
-
-
-
-
+def change_ip(driver,c_ip):
+    ip=c_ip
+    driver.get("about:config");
+    # js代码
+    setupScript = '''var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+    prefs.setIntPref("network.proxy.type", 1);
+    prefs.setCharPref("network.proxy.http", "%s");
+    prefs.setIntPref("network.proxy.http_port", "%s");
+    prefs.setCharPref("network.proxy.ssl", "%s");
+    prefs.setIntPref("network.proxy.ssl_port", "%s");
+    prefs.setCharPref("network.proxy.ftp", "$%s");
+    prefs.setIntPref("network.proxy.ftp_port", "%s");
+    ''' % (ip.split(':')[0], ip.split(':')[1], ip.split(':')[0], ip.split(':')[1], ip.split(':')[0], ip.split(':')[1])
+    # 执行js
+    driver.execute_script(setupScript);
+profile = webdriver.FirefoxProfile()
+profile.set_preference('network.proxy.type', 1)
+profile.set_preference('network.proxy.http', '192.189.28.9')
+profile.set_preference('network.proxy.http_port', 8080)  # int
+profile.set_preference("network.proxy.share_proxy_settings", True)
+profile.update_preferences()
+driver = webdriver.Firefox(firefox_profile=profile)
+try:
+    driver.get('http://httpbin.org/ip')
+except Exception :
+    time.sleep(5)
+    c_ip = '89.43.6.114:8080'
+    change_ip(driver,c_ip)
+    driver.get('http://httpbin.org/ip')
