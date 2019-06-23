@@ -1,8 +1,4 @@
 # -- coding:utf-8 --
-
-#elements = driver.find_elements_by_class_name("STYLE1")
-#elements[11].click()  #第11个元素为点击登录按钮
-
 from selenium import webdriver
 import time
 driver=webdriver.Firefox()
